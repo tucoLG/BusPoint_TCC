@@ -1,97 +1,56 @@
-🚌 BusPoint - Sistema de Gestão de Transporte Universitário
+# 🚌 BusPoint — Sistema de Gestão de Transporte Escolar
 
-📌 Resumo do Projeto
+O **BusPoint** é uma aplicação full-stack desenvolvida como Trabalho de Conclusão de Curso (TCC) para modernizar, organizar e otimizar o gerenciamento do transporte escolar. O sistema conecta **Administradores**, **Motoristas** e **Alunos** em uma plataforma centralizada, garantindo maior controle operacional, rastreabilidade de embarques e desembarques e transparência nas rotas e horários.
 
-O BusPoint é uma plataforma desenvolvida como Trabalho de Conclusão de Curso (TCC) voltada para a gestão inteligente e otimizada do transporte universitário e escolar.
+---
 
-A solução integra em um único ecossistema web a administração de motoristas, alunos, ônibus, rotas e viagens. O sistema permite o acompanhamento em tempo real das rotas, validação e aprovação de matrículas de alunos, gerenciamento de horários e controle de acesso seguro por meio de perfis diferenciados (Administrador, Motorista e Aluno).
+## 📋 Resumo do Projeto
 
-🛠️ Tecnologias Utilizadas
+A gestão tradicional do transporte escolar frequentemente enfrenta problemas como desencontro de informações sobre horários, falta de controle em tempo real sobre os passageiros embarcados e dificuldades na organização de rotas e frotas. 
 
-Back-end
+O **BusPoint** resolve esses gargalos oferecendo três ambientes dedicados e protegidos por autenticação **JWT (JSON Web Token)** com controle de acesso baseado em perfis (*Role-Based Access Control*):
 
-Linguagem: Java 17
+* **Painel Administrativo (Web):** Gestão completa de alunos (incluindo aprovação de cadastros pendentes e alteração de status), motoristas, ônibus, pontos de parada, criação de rotas ordenadas, vinculação de matrículas, agendamento de viagens e auditoria de registros de embarque/desembarque.
+* **Área do Motorista (Responsiva / Mobile):** Visualização da rota vinculada, pontos de parada em ordem de percurso, lista de alunos ativos, dados do veículo, controle de início/encerramento de viagens e registro rápido de embarque e desembarque de passageiros.
+* **Área do Aluno (Responsiva / Mobile):** Consulta de matrícula, situação cadastral, itinerário da rota, horários de saída e retorno, informações do ônibus/motorista e histórico completo de embarques e desembarques.
 
-Framework: Spring Boot 3
+### 🛠️ Tecnologias Utilizadas
 
-Segurança & Autenticação: Spring Security + JWT (JSON Web Tokens)
+* **Back-end:** Java, Spring Boot, Spring Security (JWT), Spring Data JPA / Hibernate.
+* **Banco de Dados:** PostgreSQL.
+* **Front-end:** HTML5, CSS3, JavaScript (ES6+ modular).
+* **Prototipação & Modelagem:** Figma, Astah UML.
+* **Ferramentas:** Git, GitHub, Visual Studio Code, Postman.
 
-Persistência de Dados: Spring Data JPA / Hibernate
+---
 
-Banco de Dados: PostgreSQL
+## 🚀 Etapas do Projeto
 
-Front-end
+O desenvolvimento do BusPoint foi estruturado em etapas sequenciais para garantir alinhamento entre requisitos de negócio, experiência do usuário e arquitetura de software:
 
-Interface: HTML5, CSS3, JavaScript (Vanilla JS)
+1. **Levantamento de Requisitos e Documentação:** Definição das regras de negócio, casos de uso, requisitos funcionais/não funcionais e elaboração da documentação técnica seguindo as normas da ABNT.
+2. **Modelagem de Dados e Arquitetura:** Criação dos diagramas UML (casos de uso e classes), definição da herança de usuários (`Usuario`, `Administrador`, `Motorista`, `Aluno`) e estruturação do banco de dados relacional em PostgreSQL.
+3. **Prototipação UI/UX:** Criação da identidade visual, paletas de cores (com suporte a tema claro e escuro) e protótipos de telas para desktop e dispositivos móveis.
+4. **Desenvolvimento da API REST (Back-end):** Implementação das entidades JPA, DTOs, regras de negócio nos Services, endpoints nos Controllers e camada de segurança com filtros JWT e controle de permissões por perfil.
+5. **Desenvolvimento da Interface (Front-end):** Construção das páginas HTML/CSS e desenvolvimento do cliente de API e gerenciamento de estado/sessão em JavaScript puro.
+6. **Integração, Testes e Validação:** Conexão entre front-end e back-end, testes de fluxos de autenticação, validação de permissões de acesso, correção de inconsistências e preparação para implantação.
 
-Arquitetura Front-end: SPA (Single Page Application) modular otimizada
+---
 
-Comunicação: API REST via Fetch API
+## 👥 Participantes do Projeto
 
-📅 Etapas do Projeto
+| Integrante | Função / Responsabilidade |
+| :--- | :--- |
+| **Luis Guilherme** | Desenvolvimento Back-end e Documentação |
+| **Leonardo** | Auxílio no Back-end e Associação com o Front-end |
+| **Luan Hygor** | Desenvolvimento Front-end (Escopo e Estruturação) |
+| **Luiz Jhonathan** | Designer de UI e UX |
+| **André Mosca** | Orientador do Projeto TCC |
 
-Levantamento de Requisitos e Planejamento:
+---
 
-Definição do escopo, regras de negócio para alocação de alunos e rotas, e modelagem das entidades de dados.
+## 🎯 Conclusão do Projeto
 
-Design de UI/UX:
+O desenvolvimento do **BusPoint** demonstrou na prática como a engenharia de software aplicada a problemas cotidianos pode transformar a logística do transporte escolar. A integração entre uma API REST segura e tipada no back-end e uma interface limpa e responsiva no front-end permitiu entregar uma solução funcional, escalável e acessível para todos os perfis envolvidos na operação diária.
 
-Criação da identidade visual, wireframes e protótipos de alta fidelidade focando na usabilidade de alunos e administradores.
-
-Desenvolvimento da API Back-end:
-
-Implementação dos controllers RESTful, regras de serviço, migração de dados e camada de segurança com Spring Security e JWT.
-
-Desenvolvimento Front-end & Integração:
-
-Construção das telas do painel administrativo e da visão do aluno/motorista, integrando os endpoints REST da aplicação.
-
-Ajustes de Segurança e Testes:
-
-Testes de integração, refatoração de permissões por perfil (Roles) e homologação dos fluxos de cadastro e aprovação de matrículas.
-
-👥 Participantes e Papéis
-
-Luis Guilherme — Back-end e Documentação
-
-Leonardo — Auxílio no Back-end e Associação de Front-end
-
-Luan Hygor — Front-end (Escopo e Estrutura)
-
-Luiz Jhonathan — Designer de UI e UX
-
-Prof. André Mosca — Orientador do Projeto TCC
-
-🏁 Conclusão do Projeto
-
-O projeto BusPoint alcançou seu objetivo principal de entregar uma plataforma robusta, segura e acessível para sanar os desafios da logística do transporte escolar e universitário.
-
-Através da centralização de informações e do controle dinâmico de status (aprovação de alunos e vinculação de ônibus e viagens), a aplicação reduz ruídos de comunicação entre a gestão e os passageiros, demonstrando a viabilidade prática da solução desenvolvida e a sólida integração entre o design centrado no usuário e a arquitetura de software orientada a serviços.
-
-🚀 Como Executar o Projeto
-
-Pró-requisitos
-
-Java 17+
-
-Maven 3.x+
-
-PostgreSQL instalado e rodando
-
-Passos
-
-Clonar o repositório:
-
-git clone https://github.com/tucoLG/BusPoint_TCC.git
-
-
-Configurar o banco de dados:
-Configure a URL e credenciais do banco em src/main/resources/application.properties ou através de variáveis de ambiente (DB_URL, DB_USER, DB_PASS).
-
-Executar o Back-end:
-
-mvn spring-boot:run
-
-
-Acessar o Front-end:
-Abra o arquivo index.html em seu navegador ou utilize um servidor estático local (como Live Server no VS Code).
+Além de consolidar os conhecimentos técnicos adquiridos ao longo do curso — como modelagem relacional, segurança com tokens JWT, arquitetura em camadas e consumo assíncrono de APIs —, o projeto reforçou a importância do trabalho colaborativo, da divisão clara de responsabilidades e do rigor na documentação técnica.
