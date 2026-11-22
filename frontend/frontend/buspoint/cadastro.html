@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="assets/favicon.png" type="image/png"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Sora:wght@600;700;800&display=swap"><link rel="stylesheet" href="assets/styles.css"><link rel="stylesheet" href="assets/home.css"><script src="assets/theme.js"></script><title>Criar conta de aluno — BusPoint</title><script src="assets/config.js"></script></head>
+<body>
+<header class="h-top" id="top"><div class="h-wrap"><a class="h-logo" href="index.html" aria-label="BusPoint"><img class="logo-l" src="assets/logo-clara.png" alt="BusPoint"><img class="logo-d" src="assets/logo-escura.png" alt=""></a><div class="h-act"><button type="button" class="btn btn--ghost btn--icon theme-btn" data-theme-toggle aria-label="Alternar entre tema claro e escuro" title="Alternar tema"><span class="theme-ico theme-ico--moon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg></span><span class="theme-ico theme-ico--sun"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/> <path d="M12 2v2"/> <path d="M12 20v2"/> <path d="m4.93 4.93 1.41 1.41"/> <path d="m17.66 17.66 1.41 1.41"/> <path d="M2 12h2"/> <path d="M20 12h2"/> <path d="m6.34 17.66-1.41 1.41"/> <path d="m19.07 4.93-1.41 1.41"/></svg></span></button><a class="btn btn--outline" href="login.html">Entrar</a></div></div></header>
+<main class="c-main" id="m">
+<div class="c-route" aria-label="Etapas do acesso"><div class="stp on"><i>1</i><span>Cadastro</span></div><div class="ln"></div><div class="stp"><i>2</i><span>Aprovação</span></div><div class="ln"></div><div class="stp"><i>3</i><span>Primeiro acesso</span></div></div>
+<h1>Criar conta de aluno</h1>
+<p class="sub">Preencha seus dados. Depois do envio, a administração precisa aprovar o cadastro antes do primeiro acesso.</p>
+<form id="f" class="c-card" novalidate><div class="c-grid">
+<label class="field full"><span class="label">Nome completo</span><input class="input" name="nome" required maxlength="50" autocomplete="name"></label>
+<label class="field full"><span class="label">E-mail</span><input class="input" name="email" type="email" required maxlength="100" autocomplete="email"></label>
+<label class="field"><span class="label">Telefone (só números)</span><input class="input" name="telefone" type="tel" inputmode="numeric" required maxlength="15" autocomplete="tel"></label>
+<label class="field"><span class="label">Número da matrícula</span><input class="input" name="matricula" type="number" min="1" required></label>
+<label class="field full"><span class="label">Período</span><select class="input" name="periodo" required><option value="">Selecione…</option><option>Manhã</option><option>Tarde</option><option>Noite</option></select></label>
+<label class="field"><span class="label">Senha</span><input class="input" name="senha" type="password" required minlength="6" autocomplete="new-password"></label>
+<label class="field"><span class="label">Confirmar senha</span><input class="input" name="senha2" type="password" required autocomplete="new-password"></label>
+</div><p class="c-err" id="err" role="alert"></p>
+<button class="btn btn--block btn--tall" type="submit" id="go">Enviar cadastro</button>
+<p class="c-foot">Já tem conta? <a href="login.html">Entrar</a></p></form></main>
+<script>
+var f=document.getElementById("f"),err=document.getElementById("err"),go=document.getElementById("go");
+f.onsubmit=async function(e){
+  e.preventDefault();err.textContent="";var d=new FormData(f),v=function(k){return String(d.get(k)||"").trim()};
+  var tel=v("telefone").replace(/\D/g,"");
+  if(!v("nome")||!v("email")||!tel||!v("matricula")||!v("periodo")||!d.get("senha")){err.textContent="Preencha todos os campos.";return}
+  if(tel.length<10||tel.length>13){err.textContent="Telefone inválido: use DDD + número, só dígitos.";return}
+  if(d.get("senha").length<6){err.textContent="A senha precisa ter pelo menos 6 caracteres.";return}
+  if(d.get("senha")!==d.get("senha2")){err.textContent="As senhas não conferem.";return}
+  go.disabled=true;go.textContent="Enviando…";
+  try{
+    var r=await fetch(window.BP_API+"/api/alunos/cadastrar",{method:"POST",headers:{"Content-Type":"application/json",Accept:"application/json"},
+      body:JSON.stringify({nome:v("nome"),email:v("email"),telefone:tel,matricula:Number(v("matricula")),periodo:v("periodo"),senha:d.get("senha")})});
+    if(!r.ok){var j=null;try{j=await r.json()}catch(x){}
+      throw new Error(j&&j.campos?Object.values(j.campos).join(" "):(j&&(j.mensagem||j.erro))||"Não foi possível enviar o cadastro (erro "+r.status+").")}
+    document.getElementById("m").innerHTML='<div class="c-route" aria-hidden="true"><div class="stp"><i>1</i><span>Cadastro</span></div><div class="ln"></div><div class="stp on"><i>2</i><span>Aprovação</span></div><div class="ln"></div><div class="stp"><i>3</i><span>Primeiro acesso</span></div></div><div class="c-ok" role="status"><div class="success-circle success-circle--lg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div><h2>Cadastro enviado</h2><p>Aguarde a liberação do seu cadastro pela administração. Assim que for aprovado, você já pode entrar com seu e-mail e senha.</p><a class="btn" href="login.html">Ir para o login</a></div>';
+  }catch(x){err.textContent=x instanceof TypeError?"Não foi possível conectar à API. Verifique se o servidor está no ar.":x.message;go.disabled=false;go.textContent="Enviar cadastro"}
+};
+</script></body></html>

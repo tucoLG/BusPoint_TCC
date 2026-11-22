@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="assets/favicon.png" type="image/png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Sora:wght@600;700;800&display=swap" />
+    <link rel="stylesheet" href="assets/styles.css" />
+    <link rel="stylesheet" href="assets/home.css" />
+    <script src="assets/theme.js"></script>
+    <title>BusPoint: transporte universitário organizado</title>
+    <meta name="description" content="BusPoint organiza rotas, viagens e embarques do transporte universitário para alunos, motoristas e administração." />
+    <script src="assets/config.js"></script>
+    <script>
+      /* quem já está logado vai direto para a própria área */
+      var s = null;
+      try {
+        s = JSON.parse(sessionStorage.getItem("bp-auth"));
+      } catch (e) {}
+
+      var h = {
+        admin: "admin/dashboard.html",
+        motorista: "motorista/inicio.html",
+        aluno: "aluno/inicio.html"
+      };
+
+      if (s && h[s.role]) {
+        location.replace(h[s.role]);
+      }
+    </script>
+  </head>
+
+  <body>
+    <header class="h-top" id="top">
+      <div class="h-wrap">
+        <a class="h-logo" href="index.html" aria-label="BusPoint">
+          <img class="logo-l" src="assets/logo-clara.png" alt="BusPoint" />
+          <img class="logo-d" src="assets/logo-escura.png" alt="" />
+        </a>
+        <nav class="h-nav" aria-label="Seções">
+          <a href="#sobre">O projeto</a>
+          <a href="#como">Como funciona</a>
+          <a href="#equipe">Equipe</a>
+        </nav>
+        <div class="h-act">
+          <button type="button" class="btn btn--ghost btn--icon theme-btn" data-theme-toggle aria-label="Alternar entre tema claro e escuro" title="Alternar tema"><span class="theme-ico theme-ico--moon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg></span><span class="theme-ico theme-ico--sun"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/> <path d="M12 2v2"/> <path d="M12 20v2"/> <path d="m4.93 4.93 1.41 1.41"/> <path d="m17.66 17.66 1.41 1.41"/> <path d="M2 12h2"/> <path d="M20 12h2"/> <path d="m6.34 17.66-1.41 1.41"/> <path d="m19.07 4.93-1.41 1.41"/></svg></span></button>
+          <a class="btn btn--outline" href="login.html">Entrar</a>
+          <a class="btn" href="cadastro.html">Registrar</a>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="h-hero">
+        <div class="h-wrap">
+          <div class="h-hero__text">
+            <h1>Seu ônibus universitário, no horário e sem adivinhação.</h1>
+            <p>
+              O BusPoint organiza rotas, viagens e embarques do transporte universitário.
+              O aluno sabe onde e quando pegar o ônibus, o motorista conduz com a lista de passageiros na mão e a administração acompanha tudo em um só lugar.
+            </p>
+            <div class="h-cta">
+              <a class="btn btn--xl btn--signal" href="cadastro.html">Criar conta de aluno <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/> <path d="m12 5 7 7-7 7"/></svg></a>
+              <a class="btn btn--xl btn--outline" href="login.html">Já tenho conta</a>
+            </div>
+          </div>
+
+          <div class="h-visual">
+            <svg class="h-route" viewBox="0 0 520 400" role="img" aria-label="Ilustração de uma rota com quatro paradas e um ônibus em movimento">
+              <path id="rt" class="rl" d="M60 340 C 60 240, 240 280, 250 190 S 430 120, 450 56" />
+              <g class="st">
+                <circle cx="60" cy="340" r="11" />
+                <circle cx="195" cy="252" r="11" />
+                <circle cx="300" cy="140" r="11" />
+                <circle class="end" cx="450" cy="56" r="11" />
+              </g>
+              <circle class="ping" cx="450" cy="56" r="11" />
+              <circle class="ping p2" cx="450" cy="56" r="11" />
+              <text x="82" y="364">Terminal</text>
+              <text x="176" y="257" text-anchor="end">Centro</text>
+              <text x="320" y="136">Biblioteca</text>
+              <text x="372" y="36">Campus</text>
+              <g class="bus" id="bus">
+                <rect x="-17" y="-11" width="34" height="22" rx="6" />
+                <path d="M-12-5h8v7h-8zM-2-5h8v7h-8zM8-5h6v7H8z" />
+                <animateMotion dur="16s" repeatCount="indefinite" rotate="0">
+                  <mpath href="#rt" />
+                </animateMotion>
+              </g>
+            </svg>
+
+            <div class="h-ticket" aria-hidden="true">
+              <div class="h-ticket__top">
+                <span class="badge badge--green badge--live">Em andamento</span>
+                <span class="h-ticket__time">18:30</span>
+              </div>
+              <p class="h-ticket__route">Terminal → Campus Central</p>
+              <div class="ocupacao"><span style="width: 70%"></span></div>
+              <p class="h-ticket__meta">31 de 44 lugares ocupados</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="h-sec" id="sobre">
+        <div class="h-wrap">
+          <div class="rv">
+            <h2>Um sistema, três jeitos de usar</h2>
+            <p class="lead">
+              O BusPoint substitui planilhas e recados por um fluxo único: a administração monta as rotas,
+              o motorista registra cada embarque e o aluno acompanha a própria viagem.
+            </p>
+          </div>
+
+          <div class="h-cols">
+            <article class="h-card rv">
+              <span class="icon-tile icon-tile--xl"><svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="9" x="3" y="3" rx="1"/> <rect width="7" height="5" x="14" y="3" rx="1"/> <rect width="7" height="9" x="14" y="12" rx="1"/> <rect width="7" height="5" x="3" y="16" rx="1"/></svg></span>
+              <h3>Administração</h3>
+              <p>
+                Cadastra ônibus, pontos de parada e rotas, aprova novos usuários, agenda viagens e consulta o histórico de embarques e desembarques.
+              </p>
+            </article>
+            <article class="h-card rv">
+              <span class="icon-tile icon-tile--xl"><svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6 2 7"/> <path d="M10 6h4"/> <path d="m22 7-2-1"/> <rect width="16" height="16" x="4" y="3" rx="2"/> <path d="M4 11h16"/> <path d="M8 15h.01"/> <path d="M16 15h.01"/> <path d="M6 19v2"/> <path d="M18 21v-2"/></svg></span>
+              <h3>Motoristas</h3>
+              <p>
+                Vê a rota e os horários do dia, inicia e encerra a viagem e marca quem embarcou e quem desembarcou, parada a parada.
+              </p>
+            </article>
+            <article class="h-card rv">
+              <span class="icon-tile icon-tile--xl"><svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/> <path d="M22 10v6"/> <path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/></svg></span>
+              <h3>Alunos</h3>
+              <p>
+                Consulta a rota matriculada, os horários, o ônibus da próxima viagem e o histórico de transporte, direto do celular.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="h-sec h-sec--tint" id="como">
+        <div class="h-wrap">
+          <div class="rv">
+            <h2>Do cadastro ao embarque</h2>
+            <p class="lead">
+              Todo aluno passa por uma aprovação antes de usar o sistema, para que só quem realmente tem direito ao transporte viaje.
+            </p>
+          </div>
+
+          <ol class="h-steps rv">
+            <li><b>Cadastro</b> O aluno se registra com nome, e-mail, matrícula e período.</li>
+            <li><b>Aprovação</b> A administração libera o acesso. Até lá, o login fica bloqueado.</li>
+            <li><b>Matrícula na rota</b> O aluno é vinculado à rota que atende o seu trajeto.</li>
+            <li><b>Viagem</b> Horários e ônibus aparecem no app, e cada embarque fica registrado.</li>
+          </ol>
+        </div>
+      </section>
+
+      <section class="h-sec" id="equipe">
+        <div class="h-wrap">
+          <div class="rv">
+            <h2>Quem construiu o BusPoint</h2>
+            <p class="lead">
+              O projeto nasceu como trabalho de conclusão de curso, do banco de dados ao aplicativo,
+              com o objetivo de resolver um problema real do dia a dia universitário.
+            </p>
+          </div>
+
+          <div class="h-team">
+            <div class="h-pers rv">
+              <span class="av">LT</span>
+              <div>
+                <b>Leonardo Tsuzuki de Almeida</b>
+                <span>Frontend e experiência do usuário</span>
+              </div>
+            </div>
+            <div class="h-pers rv">
+              <span class="av">LG</span>
+              <div>
+                <b>Luís Guilherme Garcia Fogaça</b>
+                <span>Backend e banco de dados</span>
+              </div>
+            </div>
+            <div class="h-pers rv">
+              <span class="av">LH</span>
+              <div>
+                <b>Luan Hygor Pereira</b>
+                <span>Gestão de rotas e integração</span>
+              </div>
+            </div>
+            <div class="h-pers rv">
+              <span class="av">LJ</span>
+              <div>
+                <b>Luiz Jhonatan da Silva Tavares</b>
+                <span>QA e testes do sistema</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="h-band">
+        <div class="h-wrap rv">
+          <div>
+            <h2>Pronto para embarcar?</h2>
+            <p>Crie sua conta de aluno em um minuto. A administração libera o acesso em seguida.</p>
+          </div>
+          <a class="btn btn--xl btn--signal" href="cadastro.html">Criar conta de aluno <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/> <path d="m12 5 7 7-7 7"/></svg></a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="h-foot">
+      <div class="h-wrap">
+        <span>© 2026 BusPoint</span>
+        <span>Trabalho de conclusão de curso</span>
+      </div>
+    </footer>
+
+    <script>
+      var reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      /* respeita "reduzir movimento": ônibus parado na primeira parada */
+      if (reduce) {
+        var a = document.querySelector("#bus animateMotion");
+        if (a) a.remove();
+        document.getElementById("bus").setAttribute("transform", "translate(195 252)");
+      }
+
+      /* sombra no topo ao rolar */
+      var top_ = document.getElementById("top");
+      var onScroll = function () { top_.classList.toggle("is-scrolled", window.scrollY > 8); };
+      addEventListener("scroll", onScroll, { passive: true });
+      onScroll();
+
+      /* blocos entram uma vez, ao aparecer na tela; a rota dos passos "acende" parada a parada */
+      var els = document.querySelectorAll(".rv");
+      if (reduce || !("IntersectionObserver" in window)) {
+        els.forEach(function (e) { e.classList.add("in"); });
+      } else {
+        var io = new IntersectionObserver(
+          function (list) {
+            list.forEach(function (x) {
+              if (x.isIntersecting) { x.target.classList.add("in"); io.unobserve(x.target); }
+            });
+          },
+          { threshold: 0.18 }
+        );
+        els.forEach(function (e) { io.observe(e); });
+      }
+    </script>
+  </body>
+</html>
